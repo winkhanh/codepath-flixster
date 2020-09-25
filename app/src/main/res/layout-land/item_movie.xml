@@ -21,15 +21,30 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/ivPoster"
+        android:textAlignment="center"
+        android:textColor="#FFF"
+        android:textSize="20sp"
         tools:text="This is a Title" />
 
     <TextView
-        android:id="@+id/tvOverivew"
+        android:id="@+id/tvOverView"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvRating"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_toEndOf="@+id/ivPoster"
+        android:textColor="#857B7B"
+        tools:text="THIS IS A OVERVIEW BLAH BLAH" />
+
+    <TextView
+        android:id="@+id/tvRating"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvTitle"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:layout_toEndOf="@+id/ivPoster"
-        tools:text="THIS IS A OVERVIEW BLAH BLAH" />
+        android:text="TextView"
+        android:textColor="#F00" />
 </RelativeLayout>

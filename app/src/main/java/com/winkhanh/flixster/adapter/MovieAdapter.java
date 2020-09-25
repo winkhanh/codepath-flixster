@@ -20,6 +20,8 @@ import java.util.List;
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     Context context;
     List<Movie> movies;
+    public static final int POPULAR=1;
+    public static final int NON_POPULAR=0;
 
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
@@ -29,9 +31,18 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View movieView = LayoutInflater.from(context).inflate(R.layout.item_movie,parent,false);
+        View movieView;
+        if (viewType==NON_POPULAR)
+            movieView=LayoutInflater.from(context).inflate(R.layout.item_movie,parent,false);
+        else
+            movieView=LayoutInflater.from(context).inflate(R.layout.item_popular_movie,parent,false);
 
         return new ViewHolder(movieView);
+    }
+
+    @Override
+    public int getItemViewType(int position){
+        if (movies.get(position).getAverageVote()>=6) return POPULAR;else return NON_POPULAR;
     }
 
     @Override
@@ -50,18 +61,22 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
         TextView tvTitle;
         TextView tvOverView;
         ImageView ivPoster;
+        TextView tvRating;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvOverView = itemView.findViewById(R.id.tvOverivew);
+            tvOverView = itemView.findViewById(R.id.tvOverView);
             ivPoster = itemView.findViewById(R.id.ivPoster);
+            tvRating = itemView.findViewById(R.id.tvRating);
         }
 
         public void bind(Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverView.setText(movie.getOverview());
+            tvRating.setText(String.format("Rating : %.1f",movie.getAverageVote()));
             boolean landscape = (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
-            Glide.with(context).load(movie.getPosterPath(landscape)).into(ivPoster);
+            boolean popular = (movie.getAverageVote()>=6);
+            Glide.with(context).load(movie.getPosterPath(landscape||popular)).placeholder(R.drawable.movie_placeholder).into(ivPoster);
         }
     }
 }

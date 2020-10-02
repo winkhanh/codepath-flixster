@@ -25,6 +25,8 @@ import org.parceler.Parcels;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 import static org.parceler.Parcels.wrap;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
@@ -88,13 +90,12 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
             tvRating.setText(String.format("Rating : %.1f",movie.getAverageVote()));
             boolean landscape = (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
             boolean popular = (movie.getAverageVote()>=6);
-            Glide.with(context).load(movie.getPosterPath(landscape||popular)).placeholder(R.drawable.movie_placeholder).into(ivPoster);
+            Glide.with(context).load(movie.getPosterPath(landscape||popular)).placeholder(R.drawable.movie_placeholder).transform(new RoundedCornersTransformation(30,10)).into(ivPoster);
             container.setOnClickListener(new View.OnClickListener(){
-
                 @Override
                 public void onClick(View v) {
                     Intent i = new Intent(context, DetailActivity.class);
-                    i.putExtra("movie", Parcels.wrap(movie));
+                    i.putExtra("movie", wrap(movie));
                     //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(t,(View)tvTitle,"title");
                     //context.startActivity(i,options.toBundle());
                     context.startActivity(i);

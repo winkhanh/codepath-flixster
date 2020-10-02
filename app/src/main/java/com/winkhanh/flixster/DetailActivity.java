@@ -41,7 +41,7 @@ public class DetailActivity extends YouTubeBaseActivity {
         tvTitle=findViewById(R.id.tvTitle);
         youtubePlayerView = findViewById(R.id.player);
 
-        Movie movie= Parcels.unwrap(getIntent().getParcelableExtra("movie"));
+        final Movie movie= Parcels.unwrap(getIntent().getParcelableExtra("movie"));
 
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
@@ -74,12 +74,44 @@ public class DetailActivity extends YouTubeBaseActivity {
 
     }
 
+
     private void initializeYoutubePlayer(final String key) {
         youtubePlayerView.initialize(YOUTUBE_API_KEY, new YouTubePlayer.OnInitializedListener() {
             @Override
-            public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+            public void onInitializationSuccess(YouTubePlayer.Provider provider, final YouTubePlayer youTubePlayer, boolean b) {
                 Log.d("DetailActivity","OnInitializationSuccess");
                 youTubePlayer.cueVideo(key);
+                youTubePlayer.setPlayerStateChangeListener(new YouTubePlayer.PlayerStateChangeListener() {
+                    @Override
+                    public void onLoading() {
+
+                    }
+
+                    @Override
+                    public void onLoaded(String s) {
+                        youTubePlayer.play();
+                    }
+
+                    @Override
+                    public void onAdStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoStarted() {
+
+                    }
+
+                    @Override
+                    public void onVideoEnded() {
+
+                    }
+
+                    @Override
+                    public void onError(YouTubePlayer.ErrorReason errorReason) {
+
+                    }
+                });
             }
 
             @Override

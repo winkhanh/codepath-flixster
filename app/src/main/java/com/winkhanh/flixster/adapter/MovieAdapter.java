@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +32,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     List<Movie> movies;
     public static final int POPULAR=1;
     public static final int NON_POPULAR=0;
-
+    MainActivity activity;
     public MovieAdapter(Context context, List<Movie> movies) {
         this.context = context;
         this.movies = movies;
@@ -94,6 +95,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
                 public void onClick(View v) {
                     Intent i = new Intent(context, DetailActivity.class);
                     i.putExtra("movie", Parcels.wrap(movie));
+                    //ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(t,(View)tvTitle,"title");
+                    //context.startActivity(i,options.toBundle());
                     context.startActivity(i);
                 }
             });

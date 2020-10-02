@@ -16,6 +16,7 @@
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="match_parent"
+        android:transitionName="title"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivPoster"
         android:layout_marginTop="5dp"
@@ -38,6 +39,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvRating"
+        android:transitionName="overview"
         android:layout_marginTop="0dp"
         android:text="TextView"
         android:textColor="#833B3B" />

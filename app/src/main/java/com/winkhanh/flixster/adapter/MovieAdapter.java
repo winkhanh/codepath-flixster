@@ -1,21 +1,30 @@
 package com.winkhanh.flixster.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.winkhanh.flixster.DetailActivity;
+import com.winkhanh.flixster.MainActivity;
 import com.winkhanh.flixster.R;
 import com.winkhanh.flixster.model.Movie;
 
+import org.parceler.Parcel;
+import org.parceler.Parcels;
+
 import java.util.List;
+
+import static org.parceler.Parcels.wrap;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> {
     Context context;
@@ -58,25 +67,36 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{
+        RelativeLayout container;
         TextView tvTitle;
         TextView tvOverView;
         ImageView ivPoster;
         TextView tvRating;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            container = itemView.findViewById(R.id.container);
             tvTitle = itemView.findViewById(R.id.tvTitle);
             tvOverView = itemView.findViewById(R.id.tvOverView);
             ivPoster = itemView.findViewById(R.id.ivPoster);
             tvRating = itemView.findViewById(R.id.tvRating);
         }
 
-        public void bind(Movie movie) {
+        public void bind(final Movie movie) {
             tvTitle.setText(movie.getTitle());
             tvOverView.setText(movie.getOverview());
             tvRating.setText(String.format("Rating : %.1f",movie.getAverageVote()));
             boolean landscape = (context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE);
             boolean popular = (movie.getAverageVote()>=6);
             Glide.with(context).load(movie.getPosterPath(landscape||popular)).placeholder(R.drawable.movie_placeholder).into(ivPoster);
+            container.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(context, DetailActivity.class);
+                    i.putExtra("movie", Parcels.wrap(movie));
+                    context.startActivity(i);
+                }
+            });
         }
     }
 }
